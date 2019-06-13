@@ -308,8 +308,9 @@ def check_order(order_id):
         return "False"
 
 
-@front.route('/alipay_callback')
+@front.route('/alipay_callback', methods=['POST','GET'])
 def alipay_callback():
+    print(request.method)
     if request.method=='POST':
         print("request.form")
         print(request.form)
