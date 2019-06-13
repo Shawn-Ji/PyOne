@@ -302,7 +302,7 @@ def pay(index):
 @front.route('/check_order/<order_id>')
 def check_order(order_id):
     order = mon_db.order.find_one({"index":order_id})
-    if order.has_confirmed:
+    if order.get("has_confirmed"):
         return GetConfig('vip_password')
     else:
         return "False"
@@ -325,7 +325,7 @@ def alipay_callback():
         except:
             print("cant find")
             return "cant find"
-        if order.has_confirmed:
+        if order.get("has_confirmed"):
             print("has confirmed")
             return "has confirmed"
 
