@@ -314,11 +314,12 @@ def alipay_callback():
     if request.method=='POST':
         print("request.form")
         print(request.form)
-        print("request.data")
-        print(request.data)
-        print("request.json()")
-        print(request.json())
-        j = request.args
+        print('request.form.get("out_trade_no")')
+        print(request.form.get("out_trade_no"))
+        print("request.data.decode")
+        print(request.data.decode("utf8"))
+
+        j = request.form
 
         outOrderId = j.get("out_trade_no", None)
         if outOrderId:
