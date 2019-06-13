@@ -75,19 +75,23 @@ def index(path=None):
     token=request.args.get('token')
     data,total = FetchData(path=path,page=page,per_page=50,sortby=sortby,order=order,action=action,dismiss=True)
     #是否有密码
-    # password,_,cur=has_item(path,'.password')
+    password,_,cur=has_item(path,'.password')
     if not path.endswith(".mp4"):
-        password,_,cur=False, False, False
+        pass
     else:
-        password,_,cur=has_item(path,'.password')
+        if resp.get_cookie("password") == GetConfig('vip_password'):
+            pass
+        else:
+            resp=MakeResponse(render_template('theme/{}/password.html'.format(GetConfig('theme')),path=path,cur_user=user))
+            return resp
     md5_p=md5(path)
     has_verify_=has_verify(path)
     if request.method=="POST":
         password1=request.form.get('password')
-        if password1==password:
+        if password1==GetConfig('vip_password'):
             resp=MakeResponse(redirect(url_for('.index',path=path)))
-            resp.delete_cookie(md5_p)
-            resp.set_cookie(md5_p,password)
+            # resp.delete_cookie(md5_p)
+            resp.set_cookie("password",password1)
             return resp
     if password!=False:
         if (not request.cookies.get(md5_p) or request.cookies.get(md5_p)!=password) and has_verify_==False:
