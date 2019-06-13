@@ -338,8 +338,9 @@ def alipay_callback():
 
         if j.get("trade_status") != 'TRADE_SUCCESS':
             return "not pay"
-
-        mon_db.order.update_many({'index':index},{'$set':{'has_confirmed':True}})
+        new_value = {}
+        new_value['has_confirmed'] = True
+        mon_db.order.update_many({'index':outOrderId},{'$set':new_value})
 
         return "success"
 
