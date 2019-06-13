@@ -272,7 +272,7 @@ def create_order():
         "index": index,
         "day": day,
         "price": price,
-        "has_confirm": False
+        "has_confirmed": False
     }
     mon_db.order.insert_one(order)
     resp=MakeResponse(render_template('theme/{}/create_order.html'.format(GetConfig('theme'))
