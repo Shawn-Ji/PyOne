@@ -311,8 +311,12 @@ def check_order(order_id):
 @front.route('/alipay_callback')
 def alipay_callback():
     if request.method=='POST':
+        print("request.form")
         print(request.form)
+        print("request.data")
         print(request.data)
+        print("request.json()")
+        print(request.json())
         j = request.args
 
         outOrderId = j.get("out_trade_no", None)
