@@ -262,10 +262,11 @@ def find(key_word):
 
 @front.route('/create_order')
 def create_order():
+    print(GetConfig('vip_price'))
     day = int(datetime.datetime.now().strftime('%d'))
     index = str(time.time())
     left = (31.0 - day) / 31.0
-    price = round(left * GetConfig('vip_price'))
+    price = round(left * int(GetConfig('vip_price')))
 
     order = {
         "index": index,
