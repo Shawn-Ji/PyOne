@@ -76,14 +76,15 @@ def index(path=None):
     data,total = FetchData(path=path,page=page,per_page=50,sortby=sortby,order=order,action=action,dismiss=True)
     #是否有密码
     password,_,cur=has_item(path,'.password')
-    if not path.endswith(".mp4"):
-        pass
-    else:
-        if request.cookies.get("password") == GetConfig('vip_password'):
+    if request.method=="GET":
+        if not path.endswith(".mp4"):
             pass
         else:
-            resp=MakeResponse(render_template('theme/{}/password.html'.format(GetConfig('theme')),path=path,cur_user=user))
-            return resp
+            if request.cookies.get("password") == GetConfig('vip_password'):
+                pass
+            else:
+                resp=MakeResponse(render_template('theme/{}/password.html'.format(GetConfig('theme')),path=path,cur_user=user))
+                return resp
     md5_p=md5(path)
     has_verify_=has_verify(path)
     if request.method=="POST":
