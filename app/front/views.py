@@ -266,7 +266,7 @@ def create_order():
     day = int(datetime.datetime.now().strftime('%d'))
     index = str(time.time())
     left = (31.0 - day) / 31.0
-    price = round(left * int(GetConfig('vip_price')))
+    price = max(round(left * int(GetConfig('vip_price'))), 1)
 
     order = {
         "index": index,
@@ -311,6 +311,7 @@ def check_order(order_id):
 @front.route('/alipay_callback')
 def alipay_callback():
     if request.method=='POST':
+        print(request.args)
         j = request.args
 
         outOrderId = j.get("out_trade_no", None)
