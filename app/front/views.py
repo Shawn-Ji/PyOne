@@ -79,7 +79,7 @@ def index(path=None):
     if not path.endswith(".mp4"):
         pass
     else:
-        if resp.get_cookie("password") == GetConfig('vip_password'):
+        if request.cookies.get("password") == GetConfig('vip_password'):
             pass
         else:
             resp=MakeResponse(render_template('theme/{}/password.html'.format(GetConfig('theme')),path=path,cur_user=user))
