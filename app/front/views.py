@@ -284,7 +284,7 @@ def create_order():
 
 @front.route('/pay/<index>')
 def pay(index):
-    price = mon_db.order.find_one.get({"index":index}).price
+    price = mon_db.order.find_one({"index":index}).get("price")
     r = alipay.api_alipay_trade_precreate(
         subject="云录制会员",
         out_trade_no="{}and{}".format("onedrive", index),
@@ -301,7 +301,7 @@ def pay(index):
 
 @front.route('/check_order/<order_id>')
 def check_order(order_id):
-    order = mon_db.order.find_one.get({"index":order_id})
+    order = mon_db.order.find_one({"index":order_id})
     if order.has_confirmed:
         return GetConfig('vip_password')
     else:
@@ -320,7 +320,7 @@ def alipay_callback():
 
         try:
             outOrderId = outOrderId.split("and")[-1]
-            order = mon_db.order.find_one.get({"index":outOrderId})
+            order = mon_db.order.find_one({"index":outOrderId})
         except:
             print("cant find")
             return "cant find"
