@@ -78,6 +78,8 @@ def index(path=None):
     # password,_,cur=has_item(path,'.password')
     if not path.endswith(".mp4"):
         password,_,cur=False, False, False
+    else:
+        password,_,cur=has_item(path,'.password')
     md5_p=md5(path)
     has_verify_=has_verify(path)
     if request.method=="POST":
