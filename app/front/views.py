@@ -261,7 +261,7 @@ def find(key_word):
 
 
 @front.route('/create_order')
-def create_order(key_word):
+def create_order():
     day = int(datetime.datetime.now().strftime('%d'))
     index = str(time.time())
     left = (31.0 - day) / 31.0
