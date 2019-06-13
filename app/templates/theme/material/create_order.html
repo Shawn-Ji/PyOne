@@ -4,9 +4,10 @@
 <div class="layui-container">
     <!-- 文件列表 -->
     <div class="alert alert-warning">今天是{{day}}号, 支付本月剩余时间比例的费用即可  {{ price }}元 </div>
-    <a href="/pay?index={{ index }}">
+    <a href="/pay/{{ index }}">
         <button class="btn">支付</button>
     </a>
 </div>
 {%endblock content%}
+
 

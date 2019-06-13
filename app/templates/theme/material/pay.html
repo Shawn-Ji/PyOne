@@ -28,7 +28,7 @@
                 if(sec >= 0) {
                     $.ajax({
                         type: "GET",
-                        url: "/check_order?order_id={{ my_orderId }}",
+                        url: "/check_order/{{ my_orderId }}",
 
                         success: function (data) {
                             if (data === "True") {
