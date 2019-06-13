@@ -90,10 +90,12 @@ def index(path=None):
     if request.method=="POST":
         password1=request.form.get('password')
         if password1==GetConfig('vip_password'):
-            resp=MakeResponse(redirect(url_for('.index',path=path)))
+            resp=show(data['id'],data['user'],action,token=token)
             # resp.delete_cookie(md5_p)
             resp.set_cookie("password",password1)
             return resp
+        else:
+            return "密码错误"
     if password!=False:
         if (not request.cookies.get(md5_p) or request.cookies.get(md5_p)!=password) and has_verify_==False:
             if total=='files' and GetConfig('encrypt_file')=="no":
