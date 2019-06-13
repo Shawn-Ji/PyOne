@@ -75,7 +75,9 @@ def index(path=None):
     token=request.args.get('token')
     data,total = FetchData(path=path,page=page,per_page=50,sortby=sortby,order=order,action=action,dismiss=True)
     #是否有密码
-    password,_,cur=has_item(path,'.password')
+    # password,_,cur=has_item(path,'.password')
+    if not path.endswith(".mp4"):
+        password,_,cur=False, False, False
     md5_p=md5(path)
     has_verify_=has_verify(path)
     if request.method=="POST":
