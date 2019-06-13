@@ -4,11 +4,11 @@
 {%block content%}
 <div class="layui-container">
     <!-- 看图模式 -->
-    <div class="layui-form">
-        <div class="layui-form-item">
-            <input type="checkbox" name="switch" title="看图模式" lay-filter="image_view" {%if image_mode==1%}checked{%endif%}>
-        </div>
-    </div>
+{#    <div class="layui-form">#}
+{#        <div class="layui-form-item">#}
+{#            <input type="checkbox" name="switch" title="看图模式" lay-filter="image_view" {%if image_mode==1%}checked{%endif%}>#}
+{#        </div>#}
+{#    </div>#}
     <!-- head -->
      {%include 'theme/'+GetConfig('theme')+'/head.html'%}
     <!-- 文件列表 -->

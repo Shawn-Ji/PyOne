@@ -1,9 +1,21 @@
 #-*- coding=utf-8 -*-
+import time
+import datetime
 from flask import render_template,redirect,abort,make_response,jsonify,request,url_for,Response,send_from_directory
 from flask_sqlalchemy import Pagination
 from ..utils import *
 from ..extend import *
 from . import front
+from alipay import AliPay
+
+alipay = AliPay(
+    appid=GetConfig('APPID'),
+    app_notify_url=GetConfig('notify_url'),  # 默认回调url
+    app_private_key_string=GetConfig("private_key"),
+    alipay_public_key_string=GetConfig("public_key"),
+    sign_type="RSA2"
+)
+
 
 ################################################################################
 ###################################前台函数#####################################
@@ -246,6 +258,83 @@ def find(key_word):
     resp.set_cookie('sortby',str(sortby))
     resp.set_cookie('order',str(order))
     return resp
+
+
+@front.route('/create_order')
+def create_order(key_word):
+    day = int(datetime.datetime.now().strftime('%d'))
+    index = str(time.time())
+    left = (31.0 - day) / 31.0
+    price = round(left * GetConfig('vip_price'))
+
+    order = {
+        "index": index,
+        "day": day,
+        "price": price,
+        "has_confirm": False
+    }
+    mon_db.order.insert_one(order)
+    resp=MakeResponse(render_template('theme/{}/create_order.html'.format(GetConfig('theme'))
+                    ,index=index
+                    ,price=price
+                    ,day=day))
+    return resp
+
+
+@front.route('/pay/<index>')
+def pay(index):
+    price = mon_db.order.find_one.get({"index":index}).price
+    r = alipay.api_alipay_trade_precreate(
+        subject="云录制会员",
+        out_trade_no="{}and{}".format("onedrive", index),
+        total_amount=price
+    )
+    j = r
+    qr_url = j["qr_code"]
+    payPicUrl = "http://zhiboluzhi.cn/generate_Image?qr_url={}".format(qr_url)
+    resp=MakeResponse(render_template('theme/{}/pay.html'.format(GetConfig('theme'))
+                    ,payPicUrl=payPicUrl
+                    ,my_orderId=index))
+    return resp
+
+
+@front.route('/check_order/<order_id>')
+def check_order(order_id):
+    order = mon_db.order.find_one.get({"index":order_id})
+    if order.has_confirmed:
+        return GetConfig('vip_password')
+    else:
+        return "False"
+
+
+@front.route('/alipay_callback')
+def alipay_callback():
+    if request.method=='POST':
+        j = request.args
+
+        outOrderId = j.get("out_trade_no", None)
+        if outOrderId:
+            if outOrderId.split("and")[0] != "onedrive":
+                return "client is not me"
+
+        try:
+            outOrderId = outOrderId.split("and")[-1]
+            order = mon_db.order.find_one.get({"index":outOrderId})
+        except:
+            print("cant find")
+            return "cant find"
+        if order.has_confirmed:
+            print("has confirmed")
+            return "has confirmed"
+
+        if j.get("trade_status") != 'TRADE_SUCCESS':
+            return "not pay"
+
+        mon_db.order.update_many({'index':index},{'has_confirmed':True})
+
+        return "success"
+
+    return "404"
 
 @front.route('/robots.txt')
 def robot():

@@ -1,0 +1,63 @@
+{%extends 'theme/'+GetConfig('theme')+'/layout.html'%}
+
+{%block content%}
+    <div class="container">
+        <div class="col-md-offset-4 col-md-4 col-sm-12">
+            <div class="alert alert-danger">
+                    <span>请在倒计时结束前完成支付
+                    <br>请使用实时生成的二维码, 之前的二维码即使金额一致也无效</span>
+            </div>
+            <h1 id="saoma">请使用支付宝扫码支付</h1>
+            <center id="time" style="font-size: large"></center>
+            <h3><a href="{{ qr_url }}">手机浏览器可以尝试点我跳转支付宝APP</a></h3>
+            <img id="pic" style="width: 300px" src="{{ payPicUrl }}">
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var count = 300;
+
+        var deadline = new Date(new Date().getTime() + count * 1000);
+        window.onload = function () {
+            var timer = setInterval(function () {
+                var curTime = new Date().getTime()
+                var time = deadline.getTime() - curTime  //算出剩余毫秒数
+                var sec = parseInt(time / 1000) //剩余时间,以秒计
+                document.getElementById('time').textContent = "倒计时: " + sec + "秒";
+                if(sec >= 0) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/check_order?order_id={{ my_orderId }}",
+
+                        success: function (data) {
+                            if (data !== "False") {
+                                document.getElementById('saoma').innerHTML="观看密码为"+
+                                    data+
+                                    "本月请记住此密码, 每个月1号变更一次密码"+
+                                    "<a href='/'>支付成功,点我返回首页</a>" +
+                                    "<br/>点击群号码" +
+                                    "<a href='https://jq.qq.com/?_wv=1027&k=581UIm7'>135379848</a>加入qq群, 用于提供百度云视频下载地址";
+                                clearInterval(timer);
+                            }
+                        }
+                    });
+                }
+
+
+                if (sec < 0) {
+                    // $.ajax({
+                    //     type: 'POST',
+                    //     url: cancel_url
+                    // });
+                    document.getElementById('saoma').innerHTML="<a href='/'>二维码已过期,点我返回首页</a>"
+                    document.getElementById('pic').style.display = "none";
+                    {#                    window.location.href = "/index/";#}
+                }
+            }, 1000);
+        }
+    </script>
+
+{%endblock content%}
+
+
