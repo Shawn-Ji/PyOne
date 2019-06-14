@@ -8,26 +8,26 @@
   <div id="dplayer"></div>
   <br>
     <!-- 固定标签 -->
-    <div class="layui-form layui-form-pane">
-      <div class="layui-form-item" pane>
-        <label class="layui-form-label"><a onclick="copyUrl('share')"><i class="fa fa-share-alt" aria-hidden="true"></i>分享地址(点击复制)</a></label>
-        <div class="layui-input-block">
-          {%if GetConfig("verify_url")=="True"%}
-          <input type="text" id="share" class="layui-input" value="{{url}}&action=share" >
-          {%else%}
-          <input type="text" id="share" class="layui-input" value="{{url}}?action=share" >
-          {%endif%}
-        </div>
-      </div>
-    </div>
-    <div class="layui-form layui-form-pane">
-      <div class="layui-form-item" pane>
-        <label class="layui-form-label"><a onclick="copyUrl('use_outer')"><i class="fa fa-link" aria-hidden="true"></i>调用地址(点击复制)</a></label>
-        <div class="layui-input-block">
-          <input type="text"  id="use_outer" class="layui-input" value="{{url}}" >
-        </div>
-      </div>
-    </div>
+{#    <div class="layui-form layui-form-pane">#}
+{#      <div class="layui-form-item" pane>#}
+{#        <label class="layui-form-label"><a onclick="copyUrl('share')"><i class="fa fa-share-alt" aria-hidden="true"></i>分享地址(点击复制)</a></label>#}
+{#        <div class="layui-input-block">#}
+{#          {%if GetConfig("verify_url")=="True"%}#}
+{#          <input type="text" id="share" class="layui-input" value="{{url}}&action=share" >#}
+{#          {%else%}#}
+{#          <input type="text" id="share" class="layui-input" value="{{url}}?action=share" >#}
+{#          {%endif%}#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="layui-form layui-form-pane">#}
+{#      <div class="layui-form-item" pane>#}
+{#        <label class="layui-form-label"><a onclick="copyUrl('use_outer')"><i class="fa fa-link" aria-hidden="true"></i>调用地址(点击复制)</a></label>#}
+{#        <div class="layui-input-block">#}
+{#          <input type="text"  id="use_outer" class="layui-input" value="{{url}}" >#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
 <script>
     $(function () {
         const dp = new DPlayer({
@@ -67,6 +67,6 @@
     });
 
 </script>
- <a href="{{url}}" class="fab-fixed"><i class="fa fa-download fa-3x" aria-hidden="true"></i></a>
+{# <a href="{{url}}" class="fab-fixed"><i class="fa fa-download fa-3x" aria-hidden="true"></i></a>#}
 </div>
 {%endblock content%}
