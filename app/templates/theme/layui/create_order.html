@@ -2,10 +2,13 @@
 
 {%block content%}
 <div class="layui-container">
-    <!-- 文件列表 -->
-    <div class="alert alert-warning">今天是{{day}}号, 支付本月剩余时间比例的费用即可  {{ price }}元 </div>
+    <div class="bg-primary">支付成为会员您将获得:<br>1. 本月的视频在线播放密码
+                                               <br>2. 指定录制5名主播的特权, 支付后进群告知管理直播间
+                                               <br>3. 所有主播的百度云链接, 可以收藏下载永久保存
+    </div>
+    <div class="alert alert-warning">本月剩余{{31 - day}}号, 支付剩余天数的费用即可 应支付<span style="color: red"> {{ price }}元</span> </div>
     <a href="/pay/{{ index }}">
-        <button class="btn">支付</button>
+        <button class="btn btn-primary">前往支付</button>
     </a>
 </div>
 {%endblock content%}
