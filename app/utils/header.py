@@ -319,6 +319,7 @@ def _file_content(path,offset,length):
 
 
 def AddResource(data,user=GetConfig('default_pan')):
+    return
     #检查父文件夹是否在数据库，如果不在则获取添加
     grand_path=data.get('parentReference').get('path').replace('/drive/root:','') #空值或者/path
     try:
