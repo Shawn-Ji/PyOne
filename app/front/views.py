@@ -92,7 +92,7 @@ def index(path=None):
         if not path.endswith(".mp4"):
             pass
         else:
-            print(request.host)
+            # print(request.host)
             if GetConfig('vip_password') == "" or request.cookies.get("password") == GetConfig('vip_password'):
                 pass
             else:
@@ -101,7 +101,7 @@ def index(path=None):
                     master_txt = "在云录制中赞助主播后获取视频密码"
                 else:
                     master_url = "http://show.zhiboluzhi.cn"
-                    master_txt = "在云录制-秀场专区中开通会员(10元)获取密码"
+                    master_txt = "在云录制-秀场专区中注册成为会员后获取视频密码"
                 resp=MakeResponse(render_template('theme/{}/password.html'.format(GetConfig('theme')),path=path,cur_user=user, master_url=master_url, master_txt=master_txt))
                 return resp
     md5_p=md5(path)
