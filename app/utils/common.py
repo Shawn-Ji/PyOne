@@ -266,19 +266,22 @@ def CanEdit(filename):
 
 def CodeType(ext):
     code_type={}
-    code_type['html'] = 'html';
-    code_type['htm'] = 'html';
-    code_type['php'] = 'php';
-    code_type['py'] = 'python';
-    code_type['css'] = 'css';
-    code_type['go'] = 'golang';
-    code_type['java'] = 'java';
-    code_type['js'] = 'javascript';
-    code_type['json'] = 'json';
-    code_type['txt'] = 'Text';
-    code_type['sh'] = 'sh';
-    code_type['md'] = 'Markdown';
-    return code_type.get(ext.lower())
+    code_type['html'] = 'html'
+    code_type['htm'] = 'html'
+    code_type['php'] = 'php'
+    code_type['py'] = 'python'
+    code_type['css'] = 'css'
+    code_type['go'] = 'golang'
+    code_type['java'] = 'java'
+    code_type['js'] = 'javascript'
+    code_type['json'] = 'json'
+    code_type['txt'] = 'Text'
+    code_type['sh'] = 'sh'
+    code_type['md'] = 'Markdown'
+    if code_type.get(ext.lower()):
+        return code_type.get(ext.lower())
+    else:
+        return ext
 
 def file_ico(item):
     try:
@@ -454,13 +457,7 @@ def get_od_user(admin=False):
     config_path=os.path.join(config_dir,'self_config.py')
     with open(config_path,'r') as f:
         text=f.read()
-    key='users'
-    if redis_client.exists(key):
-        users=json.loads(redis_client.get(key))
-    else:
-        value=re.findall('od_users=([\w\W]*})',text)[0]
-        users=json.loads(value)
-        redis_client.set(key,value)
+    users=GetConfig('od_users')
     ret=[]
     for user,value in users.items():
         if value.get('client_id')!='':

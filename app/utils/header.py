@@ -69,12 +69,20 @@ def GetConfig(key):
     else:
         value=redis_client.get(key) if redis_client.exists(key) else eval(key)
     #这里是为了储存
-    if key=='od_users' and isinstance(value,dict):
-        value=json.dumps(value)
+    if key=='od_users'and isinstance(value,dict):
+        config_path=os.path.join(config_dir,'self_config.py')
+        with open(config_path,'r') as f:
+            text=f.read()
+        value=re.findall('od_users=([\w\W]*})',text)[0]
+        # value=json.dumps(value)
     if not redis_client.exists(key):
         redis_client.set(key,value)
     #这里是为了转为字典
     if key=='od_users':
+        config_path=os.path.join(config_dir,'self_config.py')
+        with open(config_path,'r') as f:
+            text=f.read()
+        value=re.findall('od_users=([\w\W]*})',text)[0]
         value=json.loads(value)
     return value
 
@@ -194,10 +202,10 @@ def GetAppUrl(user):
 def GetLoginUrl(client_id,redirect_uri,od_type='nocn'):
     if od_type=='nocn' or od_type is None or od_type==False:
         return 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=code\
-&client_id={client_id}&redirect_uri={redirect_uri}&scope=offline_access%20files.readwrite.all'.format(client_id=client_id,redirect_uri=redirect_uri)
+&client_id={client_id}&redirect_uri={redirect_uri}&scope=offline_access%20Files.ReadWrite.All%20Files.ReadWrite'.format(client_id=client_id,redirect_uri=redirect_uri)
     else:
         return 'https://login.partner.microsoftonline.cn/common/oauth2/authorize?response_type=code\
-&client_id={client_id}&redirect_uri={redirect_uri}&scope=offline_access%20fuser.read%20ffiles.readwrite.all'.format(client_id=client_id,redirect_uri=redirect_uri)
+&client_id={client_id}&redirect_uri={redirect_uri}&scope=offline_access%20Files.ReadWrite.All%20Files.ReadWrite'.format(client_id=client_id,redirect_uri=redirect_uri)
 
 
 def GetOAuthUrl(od_type):
@@ -396,7 +404,7 @@ class GetItemThread(Thread):
         super(GetItemThread,self).__init__()
         self.queue=queue
         self.user=user
-        share_path=od_users.get(user).get('share_path')
+        share_path=GetConfig('od_users').get(user).get('share_path')
         if share_path=='/':
             self.share_path=share_path
         else:

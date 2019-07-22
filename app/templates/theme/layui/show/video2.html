@@ -12,11 +12,15 @@
       <div class="layui-form-item" pane>
         <label class="layui-form-label"><a onclick="copyUrl('share')"><i class="fa fa-share-alt" aria-hidden="true"></i>分享地址(点击复制)</a></label>
         <div class="layui-input-block">
-            {%if GetConfig("verify_url")=="True"%}
-            <input type="text" id="share" class="layui-input" value="{{url}}&action=share" >
-            {%else%}
-            <input type="text" id="share" class="layui-input" value="{{url}}?action=share" >
-            {%endif%}
+            <input type="text" id="share" class="layui-input" value="{{url.split('?')[0]}}?action=share" >
+        </div>
+      </div>
+    </div>
+    <div class="layui-form layui-form-pane">
+      <div class="layui-form-item" pane>
+        <label class="layui-form-label"><a onclick="copyUrl('share')"><i class="fa fa-share-alt" aria-hidden="true"></i>内嵌窗口(点击复制)</a></label>
+        <div class="layui-input-block">
+            <input type="text" id="share" class="layui-input" value="{{url.split('?')[0]}}?action=share" >
         </div>
       </div>
     </div>

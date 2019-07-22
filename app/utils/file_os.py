@@ -80,8 +80,7 @@ def CreateFolder(folder_name,grand_path,user=GetConfig('default_pan')):
         mon_db.items.insert_one(item)
         return True
     else:
-        ErrorLogger().print_r(data.get('error').get('msg'))
-        InfoLogger().print_r(data.get('error').get('msg'))
+        InfoLogger().print_r('创建文件夹失败：{}'.format(data.get('error').get('message')))
         return False
 
 def CreateFile(filename,path,content,user=GetConfig('default_pan')):
@@ -115,6 +114,7 @@ def CreateFile(filename,path,content,user=GetConfig('default_pan')):
     else:
         info['status']=0
         info['msg']=data.get('error').get('message')
+        InfoLogger().print_r('创建文件失败：{}'.format(data.get('error').get('message')))
     return info
 
 def EditFile(fileid,content,user=GetConfig('default_pan')):
@@ -146,6 +146,7 @@ def EditFile(fileid,content,user=GetConfig('default_pan')):
         else:
             info['status']=0
             info['msg']=data.get('error').get('message')
+            InfoLogger().print_r('编辑文件失败：{}'.format(data.get('error').get('message')))
     except Exception as e:
         exstr = traceback.format_exc()
         ErrorLogger().print_r(exstr)
@@ -199,7 +200,7 @@ def MoveFile(fileid,new_folder_path,user=GetConfig('default_pan')):
         redis_client.delete(key)
         return True
     else:
-        InfoLogger().print_r(data.get('error').get('msg'))
+        InfoLogger().print_r('移动文件失败：{}'.format(data.get('error').get('message')))
         return False
 
 def ReName(fileid,new_name,user=GetConfig('default_pan')):
@@ -236,5 +237,5 @@ def ReName(fileid,new_name,user=GetConfig('default_pan')):
                 mon_db.items.find_one_and_update({'id':file['id']},{'$set':new_value})
         return True
     else:
-        InfoLogger().print_r(data.get('error').get('msg'))
+        InfoLogger().print_r('重命名失败：{}'.format(data.get('error').get('message')))
         return False

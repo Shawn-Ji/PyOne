@@ -57,9 +57,7 @@ def reverse_token(token):
     return token.replace('plus','+').replace('xiegang','/').replace('equal','=')
 
 def VerifyToken(token,filepath):
-    print token
     token=reverse_token(token)
-    print token
     path=filepath.split(':')[-1]
     ae=AesCls(GetConfig("password"))
     msg=ae.decrypt(token)

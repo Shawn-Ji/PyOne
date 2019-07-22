@@ -150,3 +150,42 @@ def setCode():
         return resp
     resp=MakeResponse(render_template('admin/setCode/setCode.html'))
     return resp
+
+
+@admin.route('/show_setting',methods=['GET','POST'])
+def show_setting():
+    if request.method=='POST':
+        show_redirect=request.form.get('show_redirect')
+        set('show_redirect',show_redirect)
+        redis_client.set('show_redirect',show_redirect)
+
+        show_doc=request.form.get('show_doc')
+        set('show_doc',show_doc)
+        redis_client.set('show_doc',show_doc)
+
+        show_image=request.form.get('show_image')
+        set('show_image',show_image)
+        redis_client.set('show_image',show_image)
+
+        show_video=request.form.get('show_video')
+        set('show_video',show_video)
+        redis_client.set('show_video',show_video)
+
+        show_dash=request.form.get('show_dash')
+        set('show_dash',show_dash)
+        redis_client.set('show_dash',show_dash)
+
+        show_audio=request.form.get('show_audio')
+        set('show_audio',show_audio)
+        redis_client.set('show_audio',show_audio)
+
+        show_code=request.form.get('show_code')
+        set('show_code',show_code)
+        redis_client.set('show_code',show_code)
+
+
+        flash('更新成功')
+        resp=MakeResponse(redirect(url_for('admin.show_setting')))
+        return resp
+    resp=MakeResponse(render_template('admin/setting/show_setting.html'))
+    return resp

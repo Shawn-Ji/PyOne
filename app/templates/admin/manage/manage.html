@@ -129,9 +129,13 @@ a:hover {
                     </label>
                 </td>
                 <td class="file">
-                    <a href="{{url_for('front.index',path=path+'/'+data['name'])|safe}}" target="_blank" class="mdui-list-item">
+                    {%if GetConfig("verify_url")=="True"%}
+                    <a href="{{url_for('front.index',path=data['path'],token=GenerateToken(data['path']))}}" target="_blank" class="mdui-list-item">
+                    {%else%}
+                    <a href="{{url_for('front.index',path=data['path'])}}" target="_blank" class="mdui-list-item">
+                    {%endif%}
                           <i class="mdui-icon material-icons">{{file_ico(data)}}</i> {{data['name']}}
-                      </a>
+                    </a>
                 </td>
                 <td>{{data['lastModtime']}}</td>
                 <td>
@@ -169,7 +173,11 @@ $$(function() {
               shadeClose: true,
               shade: 0.8,
               area: ['100%', '100%'],
+              {%if GetConfig("verify_url")=="True"%}
+              content: $$(this).attr('href')+"&action=share" //iframe的url
+              {%else%}
               content: $$(this).attr('href')+"?action=share" //iframe的url
+              {%endif%}
             });
             return false;
         });

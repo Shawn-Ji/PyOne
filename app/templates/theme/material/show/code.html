@@ -11,11 +11,11 @@
 </div>
 <div class="mdui-textfield">
   <label class="mdui-textfield-label">分享地址</label>
- {%if GetConfig("verify_url")=="True"%}
- <input class="mdui-textfield-input" type="text" id="share" value="{{url}}&action=share" onclick="copyUrl('share')"/>
- {%else%}
- <input class="mdui-textfield-input" type="text" id="share" value="{{url}}?action=share" onclick="copyUrl('share')"/>
- {%endif%}
+ <input class="mdui-textfield-input" type="text" id="share" value="{{url.split('?')[0]}}?action=share" onclick="copyUrl('share')"/>
+</div>
+<div class="mdui-textfield">
+  <label class="mdui-textfield-label">内嵌窗口</label>
+ <input class="mdui-textfield-input" type="text" id="iframe" value="{{url.split('?')[0]}}?action=iframe" onclick="copyUrl('iframe')"/>
 </div>
 <div class="mdui-textfield">
   <label class="mdui-textfield-label">调用地址</label>

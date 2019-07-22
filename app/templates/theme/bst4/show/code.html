@@ -15,12 +15,15 @@
             <span class="input-group-addon" id="basic-addon1">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>分享地址
                 </span>
-            {%if GetConfig("verify_url")=="True"%}
-            <input id="share" class="form-control" type="text" value="{{url}}&action=share" />
-            {%else%}
-            <input id="share" class="form-control" type="text" value="{{url}}?action=share" />
-            {%endif%}
+            <input id="share" class="form-control" type="text" value="{{url.split('?')[0]}}?action=share" />
             <a class="input-group-addon" onclick="copyUrl('share')">点击复制</a>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>内嵌窗口
+                </span>
+            <input id="iframe" class="form-control" type="text" value="{{url.split('?')[0]}}?action=iframe" />
+            <a class="input-group-addon" onclick="copyUrl('iframe')">点击复制</a>
         </div>
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">

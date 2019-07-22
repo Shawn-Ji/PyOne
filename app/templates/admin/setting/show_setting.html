@@ -1,0 +1,58 @@
+{%extends 'admin/layout.html'%}
+
+{%block content%}
+<div class="mdui-container-fluid">
+
+    <div class="mdui-typo">
+      <h1> 展示设置 </h1>
+      <small>
+        <p>1. 可用于某些后缀的文件用那种窗口展示，<font color="red">没设置的后缀直接下载</font>；</p>
+        <p>2. <font color="red">下方设置的顺序决定了文件展示的优先级</font>，比如mp4格式在“直接下载”和“视频”两类都出现了，但是“直接下载”优先级更高，因此mp4文件将直接下载</p>
+        <p>3. 后缀通过英文逗号(,)分隔，无需加点(.)</p>
+      </small>
+    </div>
+    <form action="{{url_for('admin.show_setting')}}" method="POST">
+
+        <div class="mdui-textfield">
+          <h4>直接下载</h4>
+          <input class="mdui-textfield-input" type="text" name="show_redirect" value="{{GetConfig('show_redirect')}}"/>
+        </div>
+
+        <div class="mdui-textfield">
+          <h4>office文档</h4>
+          <input class="mdui-textfield-input" type="text" name="show_doc" value="{{GetConfig('show_doc')}}"/>
+        </div>
+
+        <div class="mdui-textfield">
+          <h4>图片</h4>
+          <input class="mdui-textfield-input" type="text" name="show_image" value="{{GetConfig('show_image')}}"/>
+        </div>
+
+
+        <div class="mdui-textfield">
+          <h4>视频</h4>
+          <input class="mdui-textfield-input" type="text" name="show_video" value="{{GetConfig('show_video')}}"/>
+        </div>
+
+        <div class="mdui-textfield">
+          <h4>dash视频</h4>
+          <input class="mdui-textfield-input" type="text" name="show_dash" value="{{GetConfig('show_dash')}}"/>
+        </div>
+
+        <div class="mdui-textfield">
+          <h4>音频</h4>
+          <input class="mdui-textfield-input" type="text" name="show_audio" value="{{GetConfig('show_audio')}}"/>
+        </div>
+
+        <div class="mdui-textfield">
+          <h4>代码</h4>
+          <input class="mdui-textfield-input" type="text" name="show_code" value="{{GetConfig('show_code')}}"/>
+        </div>
+
+       <button type="submit" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-float-right">
+        <i class="mdui-icon material-icons">&#xe161;</i> 保存
+       </button>
+    </form>
+</div>
+
+{%endblock content%}

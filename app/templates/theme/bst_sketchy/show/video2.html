@@ -15,11 +15,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-share-alt" aria-hidden="true"></i>分享地址</span>
               </div>
-              {%if GetConfig("verify_url")=="True"%}
-              <input type="text" class="form-control" value='{{url}}&action=share' id="share">
-              {%else%}
-              <input type="text" class="form-control" value='{{url}}?action=share' id="share">
-              {%endif%}
+              <input type="text" class="form-control" value='{{url.split("?")[0]}}?action=share' id="share">
               <a onclick="copyUrl('share')">
               <div class="input-group-append">
                 <span class="input-group-text">点击复制</span>
@@ -28,6 +24,23 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-share-alt" aria-hidden="true"></i>内嵌窗口</span>
+              </div>
+              <input type="text" class="form-control" value='{{url.split("?")[0]}}?action=iframe' id="iframe">
+              <a onclick="copyUrl('iframe')">
+              <div class="input-group-append">
+                <span class="input-group-text">点击复制</span>
+              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
 
         <div class="form-group">
           <div class="form-group">
